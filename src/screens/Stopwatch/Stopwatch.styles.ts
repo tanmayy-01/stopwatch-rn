@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     alignItems:'center'
   },
   playContainer: {
-    marginTop: '10%',
+    marginBottom: '10%',
     alignItems: 'center',
   },
   actionRow: {

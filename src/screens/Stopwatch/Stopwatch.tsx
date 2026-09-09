@@ -240,6 +240,25 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
           running={running}
         />
 
+        <FlatList
+          data={laps.slice().reverse()}
+          keyExtractor={item => item.id.toString()}
+          style={styles.lapsContainer}
+          contentContainerStyle={styles.lapsContent}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item: lap, index }) => (
+            <View style={styles.lapRow}>
+              <Text style={styles.lapText}>{laps.length - index}</Text>
+
+              <Text style={styles.lapText}>
+                +{formatStopwatch(lap.duration)}
+              </Text>
+
+              <Text style={styles.lapText}>{formatStopwatch(lap.total)}</Text>
+            </View>
+          )}
+        />
+
         {timerMode ? (
           <View style={styles.timerControls}>
             <PrimaryButton icon="✕" secondary onPress={handleCancelTimer} />
@@ -262,6 +281,8 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
             {!running && elapsed > 0 && (
               <View style={styles.actionRow}>
                 <PrimaryButton icon="↻" secondary onPress={handleReset} />
+
+                
 
                 <PrimaryButton icon="⚑" secondary disabled onPress={() => {}} />
               </View>
@@ -323,27 +344,6 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
                   ),
                 )}
             </View> */}
-
-            <FlatList
-              data={laps.slice().reverse()}
-              keyExtractor={item => item.id.toString()}
-              style={styles.lapsContainer}
-              contentContainerStyle={styles.lapsContent}
-              showsVerticalScrollIndicator={false}
-              renderItem={({ item: lap, index }) => (
-                <View style={styles.lapRow}>
-                  <Text style={styles.lapText}>{laps.length - index}</Text>
-
-                  <Text style={styles.lapText}>
-                    +{formatStopwatch(lap.duration)}
-                  </Text>
-
-                  <Text style={styles.lapText}>
-                    {formatStopwatch(lap.total)}
-                  </Text>
-                </View>
-              )}
-            />
           </>
         )}
       </View>
