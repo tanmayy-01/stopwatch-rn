@@ -203,7 +203,6 @@ const Timer = ({ navigation }: any): React.JSX.Element => {
             style={styles.playButton}
             onPress={handleStart}
           >
-            {/* <Text style={styles.playIcon}>▶</Text> */}
             <Ionicons
                     name={'play'}
                     size={24}
