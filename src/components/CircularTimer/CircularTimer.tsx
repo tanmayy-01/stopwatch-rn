@@ -53,10 +53,6 @@ const CircularTimer = ({ value, running }: Props): React.JSX.Element => {
           );
         })}
 
-        {/* <Animated.View style={[styles.dotContainer, { transform: [{ rotate }] }]}>
-            <View style={styles.dot} />
-        </Animated.View> */}
-
         <View style={styles.timeContainer}>
           {separatorIndex !== -1 ? (
             <>

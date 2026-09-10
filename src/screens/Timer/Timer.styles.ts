@@ -47,15 +47,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    paddingBottom: 20,
+    paddingBottom: '9%',
     paddingTop: 10,
   },
 
   playButton: {
-    width: 62,
-    height: 62,
+    width: 72,
+    height: 72,
 
-    borderRadius: 31,
+    borderRadius: 72/2,
 
     backgroundColor: COLORS.primary,
 
@@ -65,9 +65,8 @@ export const styles = StyleSheet.create({
 
   playIcon: {
     color: COLORS.white,
-    fontSize: 22,
-
-    marginLeft: 3,
+    fontSize: 27,
+    textAlign:'center'
   },
 
   modalOverlay: {

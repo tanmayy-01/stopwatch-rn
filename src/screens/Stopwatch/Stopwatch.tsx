@@ -326,55 +326,6 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
               />
             </View>
 
-            {/* <View
-              style={
-                styles.lapsContainer
-              }>
-              {laps
-                .slice()
-                .reverse()
-                .map(
-                  (
-                    lap,
-                    index,
-                  ) => (
-                    <View
-                      key={
-                        lap.id
-                      }
-                      style={
-                        styles.lapRow
-                      }>
-                      <Text
-                        style={
-                          styles.lapText
-                        }>
-                        {laps.length -
-                          index}
-                      </Text>
-
-                      <Text
-                        style={
-                          styles.lapText
-                        }>
-                        +
-                        {formatStopwatch(
-                          lap.duration,
-                        )}
-                      </Text>
-
-                      <Text
-                        style={
-                          styles.lapText
-                        }>
-                        {formatStopwatch(
-                          lap.total,
-                        )}
-                      </Text>
-                    </View>
-                  ),
-                )}
-            </View> */}
           </>
         )}
       </View>
