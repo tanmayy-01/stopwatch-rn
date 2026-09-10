@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     borderRadius: 14,
 
     overflow: 'hidden',
+    
   },
 
   timerButton: {
@@ -33,14 +34,14 @@ export const styles = StyleSheet.create({
   name: {
     color: COLORS.white,
 
-    fontSize: 11,
+    fontSize: 14,
     fontWeight: '500',
   },
 
   duration: {
     color: '#AAAAAA',
 
-    fontSize: 10,
+    fontSize: 13,
   },
 
   removeButton: {

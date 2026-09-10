@@ -13,27 +13,26 @@ export const styles = StyleSheet.create({
 
   savedTimersContainer: {
     flex: 1,
+    paddingHorizontal: 20,
   },
 
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-
-    marginHorizontal: 15,
-
+    paddingHorizontal: 30,
     marginTop: 30,
     marginBottom: 10,
   },
 
   sectionTitle: {
     color: COLORS.white,
-    fontSize: 12,
+    fontSize: 15,
   },
 
   addText: {
     color: COLORS.primary,
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: '600',
   },
 
@@ -85,6 +84,7 @@ export const styles = StyleSheet.create({
 
     padding: 25,
     paddingBottom: 40,
+    height:'80%'
   },
 
   modalTitle: {
@@ -104,6 +104,7 @@ export const styles = StyleSheet.create({
     color: COLORS.white,
 
     paddingHorizontal: 15,
+    marginBottom:10
   },
 
   modalButtons: {
