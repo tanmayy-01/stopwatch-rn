@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignContent: 'center',
-    alignItems:'center'
+    alignItems:'center',
+    paddingHorizontal: '5%'
   },
   playContainer: {
     marginBottom: '10%',
@@ -17,10 +18,11 @@ export const styles = StyleSheet.create({
   },
   actionRow: {
     flexDirection: 'row', 
-    width: 180,
+    width: '80%',
     justifyContent: 'space-between',
-    marginTop: 25,
-    // backgroundColor: 'yellow'
+    marginTop: '2%',
+
+
   },
   timerControls: {
     flexDirection: 'row',
@@ -28,17 +30,27 @@ export const styles = StyleSheet.create({
     marginTop: 45,
   },
   lapsContainer: {
-    width: '90%',
-    marginTop: 35,
+    width: '100%',
   },
   lapRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 10,
+    paddingVertical: "2%",
     borderBottomWidth: 1,
     borderBottomColor: '#161616',
   },
+  lapRowLabelContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop:"10%",
+    width:"100%",
+    alignContent:'center'
+  },
   lapText: {
+    color: COLORS.white,
+    fontSize: 14,
+  },
+  lapTextLabel: {
     color: COLORS.lightGray,
     fontSize: 14,
   },

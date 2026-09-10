@@ -239,7 +239,15 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
           value={timerMode ? timerValue : stopwatchValue}
           running={running}
         />
+        {laps.length > 0 && (
+          <View style={styles.lapRowLabelContainer}>
+            <Text style={styles.lapTextLabel}>Lap</Text>
 
+            <Text style={[styles.lapTextLabel,{}]}>LapTime</Text>
+
+            <Text style={styles.lapTextLabel}>Total</Text>
+          </View>
+        )}
         <FlatList
           data={laps.slice().reverse()}
           keyExtractor={item => item.id.toString()}
@@ -250,7 +258,12 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
             <View style={styles.lapRow}>
               <Text style={styles.lapText}>{laps.length - index}</Text>
 
-              <Text style={styles.lapText}>
+              <Text
+                style={[
+                  styles.lapText,
+                  { width: '22%', textAlign: 'right' },
+                ]}
+              >
                 +{formatStopwatch(lap.duration)}
               </Text>
 
@@ -271,7 +284,14 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
         ) : (
           <>
             {running && (
-              <View style={styles.actionRow}>
+              <View  style={[
+                  styles.actionRow,
+                  {
+                    bottom: '4%',
+                    // backgroundColor: 'pink',
+                    position: 'absolute',
+                  },
+                ]}>
                 <PrimaryButton icon="↻" secondary disabled onPress={() => {}} />
 
                 <PrimaryButton icon="⚑" secondary onPress={handleLap} />
@@ -279,10 +299,17 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
             )}
 
             {!running && elapsed > 0 && (
-              <View style={styles.actionRow}>
+              <View
+                style={[
+                  styles.actionRow,
+                  {
+                    bottom: '4%',
+                    // backgroundColor: 'pink',
+                    position: 'absolute',
+                  },
+                ]}
+              >
                 <PrimaryButton icon="↻" secondary onPress={handleReset} />
-
-                
 
                 <PrimaryButton icon="⚑" secondary disabled onPress={() => {}} />
               </View>
