@@ -27,13 +27,10 @@ interface Lap {
 const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
   // const timerMode = route.params?.timerMode === true;
 
-
-  
   const { activeTimer, updateRemaining, pauseTimer, resumeTimer, cancelTimer } =
-  useTimer();
-  const timerMode =
-  route.params?.timerMode === true && activeTimer !== null;
-  console.log('timer', timerMode)
+    useTimer();
+  const timerMode = route.params?.timerMode === true && activeTimer !== null;
+  console.log('timer', timerMode);
 
   /*
    * STOPWATCH
@@ -249,7 +246,7 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
           <View style={styles.lapRowLabelContainer}>
             <Text style={styles.lapTextLabel}>Lap</Text>
 
-            <Text style={[styles.lapTextLabel,{}]}>LapTime</Text>
+            <Text style={[styles.lapTextLabel, {}]}>LapTime</Text>
 
             <Text style={styles.lapTextLabel}>Total</Text>
           </View>
@@ -265,10 +262,7 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
               <Text style={styles.lapText}>{laps.length - index}</Text>
 
               <Text
-                style={[
-                  styles.lapText,
-                  { width: '22%', textAlign: 'right' },
-                ]}
+                style={[styles.lapText, { width: '22%', textAlign: 'right' }]}
               >
                 +{formatStopwatch(lap.duration)}
               </Text>
@@ -280,26 +274,39 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
 
         {timerMode ? (
           <View style={[styles.timerControls]}>
-            <PrimaryButton icon="✕" secondary onPress={handleCancelTimer} />
+            <PrimaryButton icon='close' iconColor='white' secondary onPress={handleCancelTimer} />
 
             <PrimaryButton
-              icon={running ? 'Ⅱ' : '▶'}
+              icon={running ? 'pause' : 'play'}
               onPress={handleTimerPause}
             />
           </View>
         ) : (
           <>
             {running && (
-              <View  style={[
+              <View
+                style={[
                   styles.actionRow,
                   {
                     bottom: '4%',
                     position: 'absolute',
                   },
-                ]}>
-                <PrimaryButton icon="↻" secondary disabled onPress={() => {}} />
+                ]}
+              >
+                <PrimaryButton
+                  icon="reload"
+                  secondary
+                  iconColor="gray"
+                  disabled
+                  onPress={() => {}}
+                />
 
-                <PrimaryButton icon="⚑" secondary onPress={handleLap} />
+                <PrimaryButton
+                  icon="flag"
+                  secondary
+                  iconColor="white"
+                  onPress={handleLap}
+                />
               </View>
             )}
 
@@ -313,19 +320,29 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
                   },
                 ]}
               >
-                <PrimaryButton icon="↻" secondary onPress={handleReset} />
+                <PrimaryButton
+                  icon="reload"
+                  secondary
+                  iconColor="white"
+                  onPress={handleReset}
+                />
 
-                <PrimaryButton icon="⚑" secondary disabled onPress={() => {}} />
+                <PrimaryButton
+                  icon="flag"
+                  secondary
+                  iconColor="gray"
+                  disabled
+                  onPress={() => {}}
+                />
               </View>
             )}
 
             <View style={styles.playContainer}>
               <PrimaryButton
-                icon={running ? 'Ⅱ' : '▶'}
+                icon={running ? 'pause' : 'play'}
                 onPress={handleStopwatchPress}
               />
             </View>
-
           </>
         )}
       </View>

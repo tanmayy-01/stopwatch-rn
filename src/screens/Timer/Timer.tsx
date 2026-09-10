@@ -26,6 +26,7 @@ import {
 
 import SavedTimerItem from '../../components/SavedTimerItem';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Ionicons from '@react-native-vector-icons/ionicons';
 
 const Timer = ({ navigation }: any): React.JSX.Element => {
   const { savedTimers, addSavedTimer, startTimer, removeSavedTimer } =
@@ -202,7 +203,12 @@ const Timer = ({ navigation }: any): React.JSX.Element => {
             style={styles.playButton}
             onPress={handleStart}
           >
-            <Text style={styles.playIcon}>▶</Text>
+            {/* <Text style={styles.playIcon}>▶</Text> */}
+            <Ionicons
+                    name={'play'}
+                    size={24}
+                    color={'white'}
+                  />
           </TouchableOpacity>
         </View>
       </View>
