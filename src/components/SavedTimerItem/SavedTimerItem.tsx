@@ -1,23 +1,55 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React from 'react';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
 import { styles } from './SavedTimerItem.styles';
 import { formatTimer } from '../../utils/time';
 
 interface Props {
-    name: string;
-    duration: number;
-    onPress: () => void;
+  name: string;
+  duration: number;
+  onPress: () => void;
+  onRemove: () => void;
 }
 
-const SavedTimerItem = ({ name, duration, onPress }: Props) => {
+const SavedTimerItem = ({
+  name,
+  duration,
+  onPress,
+  onRemove,
+}: Props) => {
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={onPress} style={styles.container}>
-        <View>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.duration}>{formatTimer(duration)}</Text>
-        </View>
-    </TouchableOpacity>
-  )
-}
+    <View style={styles.container}>
+      {/* Timer content */}
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={onPress}
+        style={styles.timerButton}
+      >
+        <Text style={styles.name}>
+          {name}
+        </Text>
 
-export default SavedTimerItem
+        <Text style={styles.duration}>
+          {formatTimer(duration)}
+        </Text>
+      </TouchableOpacity>
+
+      {/* Cross / Remove */}
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={onRemove}
+        style={styles.removeButton}
+      >
+        <Text style={styles.removeIcon}>
+          ×
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default SavedTimerItem;

@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { FlatList, SafeAreaView, Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 
 import { styles } from './Stopwatch.styles';
 import { useTimer } from '../../context/TimerContext';
 import { formatStopwatch, formatTimer } from '../../utils/time';
 import CircularTimer from '../../components/CircularTimer';
 import PrimaryButton from '../../components/PrimaryButton';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   navigation: any;
@@ -24,10 +25,15 @@ interface Lap {
 }
 
 const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
-  const timerMode = route.params?.timerMode === true;
+  // const timerMode = route.params?.timerMode === true;
 
+
+  
   const { activeTimer, updateRemaining, pauseTimer, resumeTimer, cancelTimer } =
-    useTimer();
+  useTimer();
+  const timerMode =
+  route.params?.timerMode === true && activeTimer !== null;
+  console.log('timer', timerMode)
 
   /*
    * STOPWATCH
@@ -273,11 +279,11 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
         />
 
         {timerMode ? (
-          <View style={styles.timerControls}>
+          <View style={[styles.timerControls]}>
             <PrimaryButton icon="✕" secondary onPress={handleCancelTimer} />
 
             <PrimaryButton
-              icon={running ? 'Ⅱ' : '>'}
+              icon={running ? 'Ⅱ' : '▶'}
               onPress={handleTimerPause}
             />
           </View>
@@ -288,7 +294,6 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
                   styles.actionRow,
                   {
                     bottom: '4%',
-                    // backgroundColor: 'pink',
                     position: 'absolute',
                   },
                 ]}>
@@ -304,7 +309,6 @@ const Stopwatch = ({ navigation, route }: Props): React.JSX.Element => {
                   styles.actionRow,
                   {
                     bottom: '4%',
-                    // backgroundColor: 'pink',
                     position: 'absolute',
                   },
                 ]}

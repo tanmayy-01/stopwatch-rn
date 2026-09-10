@@ -1,83 +1,84 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../theme";
+import { StyleSheet } from 'react-native';
+import { COLORS } from '../../theme';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:
-      COLORS.background,
+    backgroundColor: COLORS.background,
   },
 
-  scrollContent: {
-    paddingTop: 20,
-    paddingBottom: 40,
+  content: {
+    flex: 1,
   },
 
-  playButton: {
-    width: 74,
-    height: 74,
-
-    borderRadius: 37,
-
-    backgroundColor:
-      COLORS.primary,
-
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    alignSelf: 'center',
-
-    marginTop: 25,
-  },
-
-  playIcon: {
-    color: COLORS.white,
-    fontSize: 26,
+  savedTimersContainer: {
+    flex: 1,
   },
 
   sectionHeader: {
     flexDirection: 'row',
-
     alignItems: 'center',
-    justifyContent:
-      'space-between',
+    justifyContent: 'space-between',
 
-    marginHorizontal: 30,
+    marginHorizontal: 15,
 
-    marginTop: 45,
-    marginBottom: 15,
+    marginTop: 30,
+    marginBottom: 10,
   },
 
   sectionTitle: {
     color: COLORS.white,
-    fontSize: 15,
+    fontSize: 12,
   },
 
   addText: {
     color: COLORS.primary,
-    fontSize: 15,
+    fontSize: 12,
+    fontWeight: '600',
   },
 
   emptyText: {
     color: COLORS.gray,
-
     textAlign: 'center',
-
     marginTop: 20,
+    fontSize: 12,
+  },
+
+  playContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    paddingBottom: 20,
+    paddingTop: 10,
+  },
+
+  playButton: {
+    width: 62,
+    height: 62,
+
+    borderRadius: 31,
+
+    backgroundColor: COLORS.primary,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  playIcon: {
+    color: COLORS.white,
+    fontSize: 22,
+
+    marginLeft: 3,
   },
 
   modalOverlay: {
     flex: 1,
-
-    backgroundColor:
-      'rgba(0,0,0,0.8)',
-
+    backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'flex-end',
   },
 
   modal: {
-    backgroundColor:
-      '#171717',
+    backgroundColor: '#171717',
 
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -88,10 +89,8 @@ export const styles = StyleSheet.create({
 
   modalTitle: {
     color: COLORS.white,
-
     fontSize: 22,
     fontWeight: '600',
-
     marginBottom: 20,
   },
 
@@ -100,8 +99,7 @@ export const styles = StyleSheet.create({
 
     borderRadius: 10,
 
-    backgroundColor:
-      COLORS.surface,
+    backgroundColor: COLORS.surface,
 
     color: COLORS.white,
 
@@ -110,7 +108,6 @@ export const styles = StyleSheet.create({
 
   modalButtons: {
     flexDirection: 'row',
-
     marginTop: 10,
   },
 
@@ -121,8 +118,7 @@ export const styles = StyleSheet.create({
 
     borderRadius: 10,
 
-    backgroundColor:
-      COLORS.surfaceLight,
+    backgroundColor: COLORS.surfaceLight,
 
     alignItems: 'center',
     justifyContent: 'center',
@@ -137,8 +133,7 @@ export const styles = StyleSheet.create({
 
     borderRadius: 10,
 
-    backgroundColor:
-      COLORS.primary,
+    backgroundColor: COLORS.primary,
 
     alignItems: 'center',
     justifyContent: 'center',
@@ -148,7 +143,6 @@ export const styles = StyleSheet.create({
 
   buttonText: {
     color: COLORS.white,
-
     fontSize: 16,
     fontWeight: '500',
   },

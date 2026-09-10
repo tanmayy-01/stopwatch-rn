@@ -1,46 +1,42 @@
-import React, {
-  useRef,
-  useState,
-} from 'react';
+import React, { useRef, useState } from 'react';
 
 import {
   Alert,
   Modal,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-
-
 import { styles } from './Timer.styles';
-import { useTimer } from '../../context/TimerContext';
-import TimerPicker, { TimerPickerRef } from '../../components/TimerPicker/TimerPicker';
-import { durationToMilliseconds, millisecondsToDuration, TimeDuration } from '../../utils/time';
-import SavedTimerItem from '../../components/SavedTimerItem';
 
-const Timer = ({
-  navigation,
-}: any): React.JSX.Element => {
+import { useTimer } from '../../context/TimerContext';
+
+import TimerPicker, {
+  TimerPickerRef,
+} from '../../components/TimerPicker/TimerPicker';
+
+import {
+  durationToMilliseconds,
+  millisecondsToDuration,
+  TimeDuration,
+} from '../../utils/time';
+
+import SavedTimerItem from '../../components/SavedTimerItem';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const Timer = ({ navigation }: any): React.JSX.Element => {
   const {
     savedTimers,
     addSavedTimer,
     startTimer,
+    removeSavedTimer,
   } = useTimer();
 
-  const pickerRef =
-    useRef<TimerPickerRef>(
-      null,
-    );
+  const pickerRef = useRef<TimerPickerRef>(null);
 
-  const addPickerRef =
-    useRef<TimerPickerRef>(
-      null,
-    );
+  const addPickerRef = useRef<TimerPickerRef>(null);
 
   const [duration, setDuration] =
     useState<TimeDuration>({
@@ -49,30 +45,26 @@ const Timer = ({
       seconds: 0,
     });
 
-  const [
-    newTimerDuration,
-    setNewTimerDuration,
-  ] = useState<TimeDuration>({
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
+  const [newTimerDuration, setNewTimerDuration] =
+    useState<TimeDuration>({
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    });
 
-  const [
-    modalVisible,
-    setModalVisible,
-  ] = useState(false);
+  const [modalVisible, setModalVisible] =
+    useState(false);
 
-  const [
-    timerName,
-    setTimerName,
-  ] = useState('');
+  const [timerName, setTimerName] =
+    useState('');
+
+  /*
+   * START TIMER
+   */
 
   const handleStart = () => {
     const milliseconds =
-      durationToMilliseconds(
-        duration,
-      );
+      durationToMilliseconds(duration);
 
     if (milliseconds <= 0) {
       Alert.alert(
@@ -83,47 +75,73 @@ const Timer = ({
       return;
     }
 
-    startTimer(
-      milliseconds,
-    );
+    startTimer(milliseconds);
 
-    navigation.navigate(
-      'Stopwatch',
-      {
-        timerMode: true,
-      },
+    navigation.navigate('Stopwatch', {
+      timerMode: true,
+    });
+  };
+
+  /*
+   * SELECT SAVED TIMER
+   */
+
+  const handleSelectSavedTimer = (
+    timer: { duration: number },
+  ) => {
+    const selected =
+      millisecondsToDuration(
+        timer.duration,
+      );
+
+    setDuration(selected);
+
+    pickerRef.current?.setValue(
+      selected,
     );
   };
 
-  const handleSelectSavedTimer =
-    (timer: {
-      duration: number;
-    }) => {
-      const selected =
-        millisecondsToDuration(
-          timer.duration,
-        );
+  /*
+   * REMOVE SAVED TIMER
+   */
 
-      setDuration(selected);
+  const handleRemoveTimer = (
+    id: string,
+    name: string,
+  ) => {
+    Alert.alert(
+      'Remove Timer',
+      `Remove "${name}"?`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Remove',
+          style: 'destructive',
+          onPress: () => {
+            removeSavedTimer(id);
+          },
+        },
+      ],
+    );
+  };
 
-      pickerRef.current?.setValue(
-        selected,
-      );
-    };
+  /*
+   * OPEN CREATE TIMER MODAL
+   */
 
   const handleOpenModal = () => {
     setTimerName('');
 
-    const initialValue: TimeDuration =
-      {
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-      };
+    const initialValue: TimeDuration = {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
 
-    setNewTimerDuration(
-      initialValue,
-    );
+    setNewTimerDuration(initialValue);
 
     setModalVisible(true);
 
@@ -134,53 +152,51 @@ const Timer = ({
     }, 100);
   };
 
-  const handleSaveTimer =
-    async () => {
-      if (!timerName.trim()) {
-        Alert.alert(
-          'Name required',
-          'Please enter a timer name.',
-        );
+  /*
+   * SAVE TIMER
+   */
 
-        return;
-      }
+  const handleSaveTimer = async () => {
+    if (!timerName.trim()) {
+      Alert.alert(
+        'Name required',
+        'Please enter a timer name.',
+      );
 
-      const milliseconds =
-        durationToMilliseconds(
-          newTimerDuration,
-        );
+      return;
+    }
 
-      if (milliseconds <= 0) {
-        Alert.alert(
-          'Invalid duration',
-          'Please select a duration.',
-        );
+    const milliseconds =
+      durationToMilliseconds(
+        newTimerDuration,
+      );
 
-        return;
-      }
+    if (milliseconds <= 0) {
+      Alert.alert(
+        'Invalid duration',
+        'Please select a duration.',
+      );
 
-      await addSavedTimer({
-        id: Date.now().toString(),
+      return;
+    }
 
-        name: timerName.trim(),
+    await addSavedTimer({
+      id: Date.now().toString(),
+      name: timerName.trim(),
+      duration: milliseconds,
+    });
 
-        duration: milliseconds,
-      });
-
-      setModalVisible(false);
-      setTimerName('');
-    };
+    setModalVisible(false);
+    setTimerName('');
+  };
 
   return (
-    <SafeAreaView
-      style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={
-          false
-        }
-        contentContainerStyle={
-          styles.scrollContent
-        }>
+    <SafeAreaView style={styles.container}>
+
+      {/* MAIN CONTENT */}
+
+      <View style={styles.content}>
+
         {/* TIMER PICKER */}
 
         <TimerPicker
@@ -189,37 +205,18 @@ const Timer = ({
           onChange={setDuration}
         />
 
-        {/* PLAY */}
+        {/* FREQUENTLY USED */}
 
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.playButton}
-          onPress={handleStart}>
-          <Text
-            style={styles.playIcon}>
-            ▶️
-          </Text>
-        </TouchableOpacity>
-
-        {/* HEADER */}
-
-        <View
-          style={
-            styles.sectionHeader
-          }>
-          <Text
-            style={
-              styles.sectionTitle
-            }>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>
             Frequently used timers
           </Text>
 
           <TouchableOpacity
-            onPress={
-              handleOpenModal
-            }>
-            <Text
-              style={styles.addText}>
+            activeOpacity={0.7}
+            onPress={handleOpenModal}
+          >
+            <Text style={styles.addText}>
               Add
             </Text>
           </TouchableOpacity>
@@ -227,35 +224,48 @@ const Timer = ({
 
         {/* SAVED TIMERS */}
 
-        {savedTimers.map(
-          timer => (
+        <View style={styles.savedTimersContainer}>
+          {savedTimers.map(timer => (
             <SavedTimerItem
               key={timer.id}
               name={timer.name}
-              duration={
-                timer.duration
-              }
+              duration={timer.duration}
               onPress={() =>
-                handleSelectSavedTimer(
-                  timer,
+                handleSelectSavedTimer(timer)
+              }
+              onRemove={() =>
+                handleRemoveTimer(
+                  timer.id,
+                  timer.name,
                 )
               }
             />
-          ),
-        )}
+          ))}
 
-        {savedTimers.length ===
-          0 && (
-          <Text
-            style={
-              styles.emptyText
-            }>
-            No saved timers
-          </Text>
-        )}
-      </ScrollView>
+          {savedTimers.length === 0 && (
+            <Text style={styles.emptyText}>
+              No saved timers
+            </Text>
+          )}
+        </View>
 
-      {/* CREATE TIMER */}
+        {/* PLAY BUTTON */}
+
+        <View style={styles.playContainer}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.playButton}
+            onPress={handleStart}
+          >
+            <Text style={styles.playIcon}>
+              ▶
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
+
+      {/* CREATE TIMER MODAL */}
 
       <Modal
         visible={modalVisible}
@@ -263,25 +273,18 @@ const Timer = ({
         animationType="slide"
         onRequestClose={() =>
           setModalVisible(false)
-        }>
-        <View
-          style={
-            styles.modalOverlay
-          }>
-          <View
-            style={styles.modal}>
-            <Text
-              style={
-                styles.modalTitle
-              }>
+        }
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modal}>
+
+            <Text style={styles.modalTitle}>
               Create Timer
             </Text>
 
             <TextInput
               value={timerName}
-              onChangeText={
-                setTimerName
-              }
+              onChangeText={setTimerName}
               placeholder="Timer name"
               placeholderTextColor="#777"
               style={styles.input}
@@ -289,57 +292,42 @@ const Timer = ({
 
             <TimerPicker
               ref={addPickerRef}
-              value={
-                newTimerDuration
-              }
+              value={newTimerDuration}
               onChange={
                 setNewTimerDuration
               }
             />
 
-            <View
-              style={
-                styles.modalButtons
-              }>
+            <View style={styles.modalButtons}>
+
               <TouchableOpacity
-                style={
-                  styles.cancelButton
-                }
+                style={styles.cancelButton}
                 onPress={() =>
-                  setModalVisible(
-                    false,
-                  )
-                }>
-                <Text
-                  style={
-                    styles.buttonText
-                  }>
+                  setModalVisible(false)
+                }
+              >
+                <Text style={styles.buttonText}>
                   Cancel
                 </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={
-                  styles.saveButton
-                }
-                onPress={
-                  handleSaveTimer
-                }>
-                <Text
-                  style={
-                    styles.buttonText
-                  }>
+                style={styles.saveButton}
+                onPress={handleSaveTimer}
+              >
+                <Text style={styles.buttonText}>
                   Save
                 </Text>
               </TouchableOpacity>
+
             </View>
+
           </View>
         </View>
       </Modal>
+
     </SafeAreaView>
   );
 };
-
-
 
 export default Timer;

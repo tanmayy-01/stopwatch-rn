@@ -25,11 +25,23 @@ export interface ActiveTimer {
 }
 
 interface TimerContextType {
+  /*
+   * SAVED TIMERS
+   */
+
   savedTimers: SavedTimer[];
 
   addSavedTimer: (
     timer: SavedTimer,
   ) => Promise<void>;
+
+  removeSavedTimer: (
+    id: string,
+  ) => Promise<void>;
+
+  /*
+   * ACTIVE TIMER
+   */
 
   activeTimer: ActiveTimer | null;
 
@@ -63,10 +75,18 @@ interface Props {
 export const TimerProvider = ({
   children,
 }: Props): React.JSX.Element => {
+  /*
+   * SAVED TIMERS
+   */
+
   const [
     savedTimers,
     setSavedTimers,
   ] = useState<SavedTimer[]>([]);
+
+  /*
+   * ACTIVE TIMER
+   */
 
   const [
     activeTimer,
@@ -74,6 +94,10 @@ export const TimerProvider = ({
   ] = useState<ActiveTimer | null>(
     null,
   );
+
+  /*
+   * LOAD SAVED TIMERS
+   */
 
   useEffect(() => {
     loadSavedTimers();
@@ -100,6 +124,10 @@ export const TimerProvider = ({
       }
     };
 
+  /*
+   * PERSIST TIMERS
+   */
+
   const persistTimers = async (
     timers: SavedTimer[],
   ): Promise<void> => {
@@ -116,6 +144,10 @@ export const TimerProvider = ({
     }
   };
 
+  /*
+   * ADD SAVED TIMER
+   */
+
   const addSavedTimer = async (
     timer: SavedTimer,
   ): Promise<void> => {
@@ -131,6 +163,29 @@ export const TimerProvider = ({
     );
   };
 
+  /*
+   * REMOVE SAVED TIMER
+   */
+
+  const removeSavedTimer = async (
+    id: string,
+  ): Promise<void> => {
+    const updatedTimers =
+      savedTimers.filter(
+        timer => timer.id !== id,
+      );
+
+    setSavedTimers(updatedTimers);
+
+    await persistTimers(
+      updatedTimers,
+    );
+  };
+
+  /*
+   * START TIMER
+   */
+
   const startTimer = (
     duration: number,
   ): void => {
@@ -140,6 +195,10 @@ export const TimerProvider = ({
       status: 'running',
     });
   };
+
+  /*
+   * UPDATE REMAINING
+   */
 
   const updateRemaining = (
     remaining: number,
@@ -156,6 +215,10 @@ export const TimerProvider = ({
     });
   };
 
+  /*
+   * PAUSE TIMER
+   */
+
   const pauseTimer = (): void => {
     setActiveTimer(current => {
       if (!current) {
@@ -168,6 +231,10 @@ export const TimerProvider = ({
       };
     });
   };
+
+  /*
+   * RESUME TIMER
+   */
 
   const resumeTimer = (): void => {
     setActiveTimer(current => {
@@ -182,40 +249,67 @@ export const TimerProvider = ({
     });
   };
 
+  /*
+   * CANCEL TIMER
+   */
+
   const cancelTimer = (): void => {
     setActiveTimer(null);
   };
 
+  /*
+   * PROVIDER
+   */
+
   return (
     <TimerContext.Provider
       value={{
+        /*
+         * SAVED TIMERS
+         */
+
         savedTimers,
+
         addSavedTimer,
+
+        removeSavedTimer,
+
+        /*
+         * ACTIVE TIMER
+         */
 
         activeTimer,
 
         startTimer,
+
         updateRemaining,
 
         pauseTimer,
+
         resumeTimer,
 
         cancelTimer,
-      }}>
+      }}
+    >
       {children}
     </TimerContext.Provider>
   );
 };
 
-export const useTimer = (): TimerContextType => {
-  const context =
-    useContext(TimerContext);
+/*
+ * HOOK
+ */
 
-  if (!context) {
-    throw new Error(
-      'useTimer must be used inside TimerProvider',
-    );
-  }
+export const useTimer =
+  (): TimerContextType => {
+    const context =
+      useContext(TimerContext);
 
-  return context;
-};
+    if (!context) {
+      throw new Error(
+        'useTimer must be used inside TimerProvider',
+      );
+    }
+
+    return context;
+  };

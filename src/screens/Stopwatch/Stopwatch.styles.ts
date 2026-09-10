@@ -21,13 +21,12 @@ export const styles = StyleSheet.create({
     width: '80%',
     justifyContent: 'space-between',
     marginTop: '2%',
-
-
   },
   timerControls: {
     flexDirection: 'row',
     gap: 25,
     marginTop: 45,
+    bottom:'4%'
   },
   lapsContainer: {
     width: '100%',
