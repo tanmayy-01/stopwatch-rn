@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
 
     padding: 25,
     paddingBottom: 40,
-    height:'80%'
+    height: '80%',
   },
 
   modalTitle: {
@@ -104,7 +104,7 @@ export const styles = StyleSheet.create({
     color: COLORS.white,
 
     paddingHorizontal: 15,
-    marginBottom:10
+    marginBottom: 10,
   },
 
   modalButtons: {
@@ -146,5 +146,9 @@ export const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: 16,
     fontWeight: '500',
+  },
+
+  savedTimersContent: {
+    paddingBottom: 10,
   },
 });
